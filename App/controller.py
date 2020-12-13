@@ -40,12 +40,40 @@ recae sobre el controlador.
 #  Inicializacion del catalogo
 # ___________________________________________________
 
+def init():
+    """
+    Llama la funcion de inicializacion del modelo.
+    """
+    lista_acc=model.New_list()
+    return lista_acc
 
 # ___________________________________________________
 #  Funciones para la carga de datos y almacenamiento
 #  de datos en los modelos
 # ___________________________________________________
 
+def loadData(data, Archivo):
+    """
+    Carga los datos de los archivos CSV en el modelo
+    """
+    Archivo = cf.data_dir + Archivo
+    input_file = csv.DictReader(open(Archivo, encoding="utf-8"),
+                                delimiter=",")
+    for Viaje in input_file:
+        model.añadirdato(data, Viaje)
+    model.AñadirCompañias (data)
+    model.Añadirservicios (data)
+    return data
+
 # ___________________________________________________
 #  Funciones para consultas
 # ___________________________________________________
+
+def basic_info(lista,M,N):
+    info={}
+    info["taxis"] = model.total_taxis (lista)
+    info["comps"] = model.companyunit (lista)
+    info["top_tax"] = model.M_compañias(lista, M)
+    info["top_sev"] = model.M_compañias(lista, N)
+    return info
+

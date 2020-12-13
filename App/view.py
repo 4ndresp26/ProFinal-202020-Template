@@ -43,11 +43,55 @@ operación seleccionada.
 #  Variables
 # ___________________________________________________
 
+Archivo="taxi-trips-wrvz-psew-subset-small.csv"
 
 # ___________________________________________________
 #  Menu principal
 # ___________________________________________________
 
+def printMenu():
+    print("\n")
+    print("*******************************************")
+    print("Bienvenido.")
+    print("1- Inicializar Analizador.")
+    print("2- Cargar información de Taxis.")
+    print("3- Top taxis y Top sevicios.")
+    print("4- Puntos.")
+    print("0- Salir")
+    print("*******************************************")
+
 """
 Menu principal
 """
+
+while True:
+    printMenu()
+    inputs = input('Seleccione una opción para continuar\n>')
+
+    if int(inputs[0]) == 1:
+        print("\nInicializando....")
+        rutas = controller.init()
+
+    elif int(inputs[0]) == 2:
+        print("\nCargando información de viajes ....")
+        controller.loadData(rutas,Archivo)
+
+    elif int(inputs[0]) == 3:
+        M=int(input("Digite el numero de resultados(Top taxis): "))
+        N=int(input("Digite el numero de resultados(Top servicios): "))
+        total=controller.basic_info(rutas,M,N)
+        print("Hay ",total["taxis"]," taxis registrados.")
+        print("Hay", total["comps"], "compañias con taxi(s).")
+
+        print("Las",M,"compañias con más taxis son: ")
+        for res in total["top_tax"]:
+            o,n=res
+            print("     *",n," con ",o," taxis")
+        print("Las",M,"compañias con más servicios son: ")
+        for res in total["top_sev"]:
+            o,n=res
+            print("     *",n," con ",o, "servicios")
+
+    else:
+        sys.exit(0)
+sys.exit(0)
